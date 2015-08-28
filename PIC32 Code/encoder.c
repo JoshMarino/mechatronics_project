@@ -41,8 +41,9 @@ int encoder_ticks(void) {
 
 
 /*----- Reset encoder value by sending a command of 0x00 -----*/
-void encoder_reset(void) {
+int encoder_reset(void) {
 	encoder_command(0);
+	return -0;
 }
 
 
@@ -51,10 +52,10 @@ int encoder_angle(void) {
 
 	int angle, ticks;
 
-	ticks = encoder_ticks();
+	ticks = encoder_ticks()-32768;
 
-	// Convert tick counts to angle: 4 ticks for each line, 334 lines
-	angle = ticks*4*334;
+	// Convert tick counts to angle: 1136 ticks per 360 deg
+	angle = ((ticks*360) / (4*334));
 
 	return angle;
 }
